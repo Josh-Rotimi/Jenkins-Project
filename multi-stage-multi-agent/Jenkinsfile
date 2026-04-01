@@ -16,6 +16,16 @@ pipeline {
       steps {
         sh 'node --version'
       }
+   stage('Database') {
+    agent {
+        docker {
+            image 'maven:3.9.14-adoptopenjdk-17'
+            args '--link my-postgres-db:db' 
+        }
+    }
+    steps {
+        sh 'mvn test'
+    }
     }
   }
 }
