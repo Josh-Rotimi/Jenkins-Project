@@ -1,32 +1,34 @@
 pipeline {
-  agent none
-  stages {
-    stage('Back-end') {
-      agent {
-        docker { image 'maven:3.9.6-eclipse-temurin-17' }
-      }
-      steps {
-        sh 'mvn --version'
-      }
-    }
-    stage('Front-end') {
-      agent {
-        docker { image 'node:25-alpine' }
-      }
-      steps {
-        sh 'node --version'
-      }
-    }
-     stage('Database') {
-      agent {
-        docker {
-            image 'maven:3.9.14-adoptopenjdk-17'
-            args '--link my-postgres-db:db' 
+    agent none
+    stages {
+        stage('Back-end') {
+            agent {
+                docker { image 'maven:3.9.6-eclipse-temurin-17' }
+            }
+            steps {
+                sh 'mvn --version'
+            }
+        }
+
+        stage('Front-end') {
+            agent {
+                docker { image 'node:20-alpine' } 
+            }
+            steps {
+                sh 'node --version'
+            }
+        }
+
+        stage('Database') {
+            agent {
+                docker {
+                    image 'maven:3.9.6-eclipse-temurin-17'
+                    args '--link my-postgres-db:db' 
+                }
+            }
+            steps {
+                sh 'mvn test'
+            }
         }
     }
-    steps {
-        sh 'mvn test'
-    }
-    }
-  }
 }
