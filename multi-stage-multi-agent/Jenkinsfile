@@ -16,6 +16,7 @@ pipeline {
       steps {
         sh 'node --version'
       }
+    }
      stage('Database') {
       agent {
         docker {
@@ -28,6 +29,7 @@ pipeline {
     }
     }
   }
+}
 }
 }
 }
